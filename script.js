@@ -47,12 +47,12 @@ function updateCountdown() {
 // ==========================================
 // 2. FLOATING AD
 // ==========================================
-function initFloatingAd() {
+function showAd() {
     const promoPopup = document.getElementById('promo-popup');
     const closePopupBtn = document.getElementById('close-popup-btn');
 
     if(promoPopup) {
-        setTimeout(() => { promoPopup.classList.remove('hidden'); }, 1000); 
+        setTimeout(() => { promoPopup.classList.remove('hidden'); }, 1500); 
     }
 
     if(closePopupBtn) {
@@ -65,30 +65,7 @@ function initFloatingAd() {
 }
 
 // ==========================================
-// 3. LOGIKA NAVBAR MOBILE
-// ==========================================
-function initMobileMenu() {
-    const menuToggle = document.getElementById('mobile-menu');
-    const navMenu = document.getElementById('nav-menu');
-    const navLinks = document.querySelectorAll('.nav-link');
-
-    if(menuToggle && navMenu) {
-        menuToggle.addEventListener('click', () => {
-            menuToggle.classList.toggle('active');
-            navMenu.classList.toggle('active');
-        });
-
-        navLinks.forEach(link => {
-            link.addEventListener('click', () => {
-                menuToggle.classList.remove('active');
-                navMenu.classList.remove('active');
-            });
-        });
-    }
-}
-
-// ==========================================
-// 4. FAQ ACCORDION
+// 3. FAQ ACCORDION
 // ==========================================
 function initFaqAccordion() {
     const faqItems = document.querySelectorAll('.faq-item');
@@ -120,16 +97,35 @@ function initFaqAccordion() {
 }
 
 // ==========================================
-// 5. JALANKAN SEMUA FUNGSI
+// 4. FLOATING MENU LOGIC
 // ==========================================
-document.addEventListener('DOMContentLoaded', () => {
+function initFloatingMenu() {
+    const btn = document.getElementById('floating-menu-btn');
+    const menu = document.getElementById('floating-nav-menu');
+
+    if(btn && menu) {
+        btn.addEventListener('click', () => {
+            menu.classList.toggle('active');
+        });
+
+        document.querySelectorAll('.floating-nav-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                menu.classList.remove('active');
+            });
+        });
+    }
+}
+
+// ==========================================
+// 5. JALANKAN FUNGSI DASAR
+// ==========================================
+function initBaseFeatures() {
     syncTimeWithServer();
     updateCountdown();
     setInterval(updateCountdown, 1000);
-    initFloatingAd();
     initFaqAccordion();
-    initMobileMenu();
-});
+    initFloatingMenu();
+}
 
 // ==========================================
 // 6. SISTEM LINK RAHASIA
@@ -165,12 +161,177 @@ function openSecureLink(key) {
 }
 
 // ==========================================
-// 7. PWA SERVICE WORKER
+// 7. CINEMATIC ANIMATION (GSAP + LENIS)
 // ==========================================
-if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-        navigator.serviceWorker.register('sw.js')
-            .then(registration => console.log('ServiceWorker berhasil:', registration.scope))
-            .catch(err => console.log('ServiceWorker gagal:', err));
+function initCinematicAnimation() {
+    // Setup Lenis
+    const lenis = new Lenis({
+        duration: 1.2,
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        direction: 'vertical',
+        gestureDirection: 'vertical',
+        smooth: true,
+    });
+
+    lenis.on('scroll', ScrollTrigger.update);
+    gsap.ticker.add((time) => {
+        lenis.raf(time * 1000);
+    });
+    gsap.ticker.lagSmoothing(0);
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Set state awal card secara paksa via JS (Biar gak ilang)
+    gsap.set(".card", { opacity: 0, y: 50 });
+
+    // Animasi Card (Ganti gsap.from ke gsap.to)
+    gsap.to(".card", {
+        scrollTrigger: {
+            trigger: ".competitions-section",
+            start: "top 85%",
+            toggleActions: "play none none none" // Pasti main
+        },
+        y: 0,
+        opacity: 1,
+        duration: 0.8,
+        stagger: 0.15,
+        ease: "power2.out",
+        onComplete: () => {
+            // Vanilla Tilt baru dijalanin SETELAH GSAP selesai
+            if (typeof VanillaTilt !== 'undefined') {
+                VanillaTilt.init(document.querySelectorAll(".card"), {
+                    max: 10,
+                    speed: 400,
+                    glare: true,
+                    "max-glare": 0.2,
+                    scale: 1.02
+                });
+            }
+        }
+    });
+
+    // Animasi About & Timeline
+    gsap.from(".about-section img", {
+        scrollTrigger: {
+            trigger: ".about-section",
+            start: "top 85%",
+        },
+        scale: 0.95,
+        opacity: 0,
+        duration: 1.2,
+        ease: "power2.out"
+    });
+
+    gsap.from(".timeline-section img", {
+        scrollTrigger: {
+            trigger: ".timeline-section",
+            start: "top 85%",
+        },
+        y: 50,
+        opacity: 0,
+        duration: 1,
+        ease: "power2.out"
+    });
+
+    // Parallax Timeline
+    gsap.fromTo(".timeline-section .section-image", 
+        { y: 30 },
+        {
+            y: -30,
+            ease: "none",
+            scrollTrigger: {
+                trigger: ".timeline-section",
+                start: "top bottom",
+                end: "bottom top",
+                scrub: true
+            }
+        }
+    );
+
+    // Animasi FAQ
+    gsap.from(".faq-item", {
+        scrollTrigger: {
+            trigger: ".faq-section",
+            start: "top 80%",
+        },
+        y: 30,
+        opacity: 0,
+        duration: 0.6,
+        stagger: 0.1,
+        ease: "power2.out"
+    });
+
+    // Paksa refresh setelah semuanya beres
+    setTimeout(() => {
+        ScrollTrigger.refresh();
+        console.log("ScrollTrigger Refreshed!");
+    }, 500);
+}
+
+// ==========================================
+// 8. CINEMATIC INTRO LOGIC
+// ==========================================
+function animateHero() {
+    gsap.from(".hero h1", { y: 50, opacity: 0, duration: 1, delay: 0.2, ease: "power3.out" });
+    gsap.from(".hero p", { y: 30, opacity: 0, duration: 1, delay: 0.4, ease: "power3.out" });
+    gsap.from(".countdown-container", { scale: 0.8, opacity: 0, duration: 1, delay: 0.6, ease: "back.out(1.7)" });
+}
+
+function initCinematicIntro() {
+    const intro = document.getElementById('cinematic-intro');
+    
+    // Logika sessionStorage lu
+    /*
+    if (sessionStorage.getItem('introPlayed')) {
+        intro.style.display = 'none';
+        document.body.classList.remove('intro-active');
+        animateHero(); 
+        showAd(); 
+        return;
+    }
+    */
+
+    document.body.classList.add('intro-active');
+
+    const tl = gsap.timeline({
+        onComplete: () => {
+            intro.style.display = 'none';
+            document.body.classList.remove('intro-active');
+            
+            // sessionStorage.setItem('introPlayed', 'true');
+            
+            animateHero();
+            showAd(); 
+            
+            // REFRESH TRIGGER setelah intro hilang
+            ScrollTrigger.refresh(); 
+        }
+    });
+
+    gsap.to(".cloud-1", { x: 100, y: 50, duration: 15, repeat: -1, yoyo: true, ease: "sine.inOut" });
+    gsap.to(".cloud-2", { x: -100, y: -50, duration: 20, repeat: -1, yoyo: true, ease: "sine.inOut" });
+    gsap.to(".cloud-3", { x: 50, y: -100, duration: 18, repeat: -1, yoyo: true, ease: "sine.inOut" });
+
+    tl.to("#intro-welcome", { opacity: 1, duration: 1.5, ease: "power2.inOut" })
+      .to("#intro-welcome", { opacity: 0, duration: 1, delay: 1 })
+      .to("#intro-to", { opacity: 1, duration: 1, ease: "power2.inOut" })
+      .to("#intro-to", { opacity: 0, duration: 1, delay: 1 })
+      .fromTo("#intro-logo", 
+          { opacity: 0, y: 30 },
+          { opacity: 1, y: 0, duration: 2, ease: "power3.out" }
+      )
+      .to("#cinematic-intro", { opacity: 0, duration: 1.5, delay: 2, ease: "power2.inOut" });
+
+    document.getElementById('skip-intro').addEventListener('click', () => {
+        tl.progress(1); 
     });
 }
+
+// ==========================================
+// 9. JALANKAN SEMUA SAAT SEMUA GAMBAR SELESAI DIMUAT
+// ==========================================
+window.addEventListener('load', () => {
+    initBaseFeatures();
+    initCinematicAnimation();
+    initCinematicIntro();
+});

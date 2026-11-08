@@ -14,10 +14,58 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Alkalami&family=Fontdiner+Swanky&family=Poppins:wght@300;400;600;700&family=Great+Vibes&display=swap" rel="stylesheet">
 
+    <!-- GSAP, Lenis, VanillaTilt -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.32/dist/lenis.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.1/vanilla-tilt.min.js"></script>
+
     <!-- External CSS -->
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="intro-active">
+
+    <!-- ========================================= -->
+    <!-- CINEMATIC INTRO (WELCOME TO EXTION)       -->
+    <!-- ========================================= -->
+    <div id="cinematic-intro">
+        <div class="clouds-container">
+            <div class="cloud cloud-1"></div>
+            <div class="cloud cloud-2"></div>
+            <div class="cloud cloud-3"></div>
+        </div>
+        
+        <div class="intro-text-container">
+            <h1 class="intro-text" id="intro-welcome">Welcome</h1>
+            <h1 class="intro-text" id="intro-to">To</h1>
+        </div>
+
+        <div class="intro-logo-container" id="intro-logo">
+            <img src="img/logo.png" alt="EXTION Logo">
+            <p>"Veil of Perseverance: Where Every Effort Becomes a Quiet Crown of Light"</p>
+        </div>
+        
+        <button id="skip-intro" class="skip-btn">Skip Intro &raquo;</button>
+    </div>
+
+    <!-- ========================================= -->
+    <!-- FLOATING NAVIGATION (PENGGANTI NAVBAR)    -->
+    <!-- ========================================= -->
+    <div class="floating-nav">
+        <button class="floating-menu-toggle" id="floating-menu-btn" aria-label="Buka Menu">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </button>
+        <nav class="floating-nav-menu" id="floating-nav-menu">
+            <ul>
+                <li><a href="#about">Tentang</a></li>
+                <li><a href="#lomba">Lomba</a></li>
+                <li><a href="#timeline">Timeline</a></li>
+                <li><a href="#faq">FAQ</a></li>
+            </ul>
+        </nav>
+    </div>
 
     <!-- FLOATING AD (POP-UP) -->
     <div id="promo-popup" class="popup-overlay hidden">
@@ -26,34 +74,6 @@
             <img src="img/poster.png" alt="EXTION Poster" class="popup-image">
         </div>
     </div>
-
-    <!-- ========================================= -->
-    <!-- HEADER & NAVBAR (STICKY FULL WIDTH)       -->
-    <!-- ========================================= -->
-    <header class="navbar">
-        <div class="container nav-container">
-            <a href="#home" class="logo-link">
-                <img src="img/logo.png" alt="EXTION Logo" class="logo-img">
-            </a>
-
-            <!-- Tombol Hamburger (Cuma muncul di HP) -->
-            <button class="menu-toggle" id="mobile-menu" aria-label="Buka Menu">
-                <span class="bar"></span>
-                <span class="bar"></span>
-                <span class="bar"></span>
-            </button>
-
-            <!-- Menu Navigasi -->
-            <nav class="nav-menu" id="nav-menu">
-                <ul>
-                    <li><a href="#about" class="nav-link">Tentang</a></li>
-                    <li><a href="#lomba" class="nav-link">Lomba</a></li>
-                    <li><a href="#timeline" class="nav-link">Timeline</a></li>
-                    <li><a href="#faq" class="nav-link">FAQ</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
 
     <!-- HERO SECTION -->
     <section class="hero container" id="home">
@@ -93,7 +113,7 @@
             <div class="card">
                 <img src="img/storytelling.png" alt="Story Telling" class="card-img">
                 <h3 class="card-title">Story Telling</h3>
-                <p class="card-subtitle">SD</p>
+                <p class="card-subtitle">Tingkat: SD</p>
                 <div class="card-actions">
                     <button onclick="openSecureLink('storytelling_reg')" class="btn-sm btn-reg">Registration</button>
                     <button onclick="openSecureLink('storytelling_guide')" class="btn-sm btn-guide">Guidebook</button>
@@ -103,7 +123,7 @@
             <div class="card">
                 <img src="img/lcc.png" alt="LCC" class="card-img">
                 <h3 class="card-title">LCC</h3>
-                <p class="card-subtitle">SMP</p>
+                <p class="card-subtitle">Tingkat: SMP</p>
                 <div class="card-actions">
                     <button onclick="openSecureLink('lcc_reg')" class="btn-sm btn-reg">Registration</button>
                     <button onclick="openSecureLink('lcc_guide')" class="btn-sm btn-guide">Guidebook</button>
@@ -113,7 +133,7 @@
             <div class="card">
                 <img src="img/businessplan.png" alt="Business Plan" class="card-img">
                 <h3 class="card-title">Business Plan</h3>
-                <p class="card-subtitle">SMP</p>
+                <p class="card-subtitle">Tingkat: SMP</p>
                 <div class="card-actions">
                     <button onclick="openSecureLink('bizplan_reg')" class="btn-sm btn-reg">Registration</button>
                     <button onclick="openSecureLink('bizplan_guide')" class="btn-sm btn-guide">Guidebook</button>
@@ -123,7 +143,7 @@
             <div class="card">
                 <img src="img/kaligrafi.png" alt="Kaligrafi" class="card-img">
                 <h3 class="card-title">Kaligrafi</h3>
-                <p class="card-subtitle">SD</p>
+                <p class="card-subtitle">Tiungkat: SD</p>
                 <div class="card-actions">
                     <button onclick="openSecureLink('kaligrafi_reg')" class="btn-sm btn-reg">Registration</button>
                     <button onclick="openSecureLink('kaligrafi_guide')" class="btn-sm btn-guide">Guidebook</button>
@@ -133,7 +153,7 @@
             <div class="card">
                 <img src="img/mhq.png" alt="MHQ" class="card-img">
                 <h3 class="card-title">MHQ</h3>
-                <p class="card-subtitle">SD & SMP</p>
+                <p class="card-subtitle">Tingkat: SD & SMP</p>
                 <div class="card-actions">
                     <button onclick="openSecureLink('mhq_reg')" class="btn-sm btn-reg">Registration</button>
                     <button onclick="openSecureLink('mhq_guide')" class="btn-sm btn-guide">Guidebook</button>
@@ -143,7 +163,7 @@
             <div class="card">
                 <img src="img/bilingualspeech.png" alt="Bilingual Speech" class="card-img">
                 <h3 class="card-title">Bilingual Speech</h3>
-                <p class="card-subtitle">SMP</p>
+                <p class="card-subtitle">Tingkat: SMP</p>
                 <div class="card-actions">
                     <button onclick="openSecureLink('speech_reg')" class="btn-sm btn-reg">Registration</button>
                     <button onclick="openSecureLink('speech_guide')" class="btn-sm btn-guide">Guidebook</button>
