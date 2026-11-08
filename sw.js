@@ -1,4 +1,4 @@
-const CACHE_NAME = 'extion-cache-v4'; // Naikkan versi
+const CACHE_NAME = 'extion-cache-v2';
 const urlsToCache = [
   './',
   './index.html',
@@ -10,7 +10,7 @@ const urlsToCache = [
   './img/about.png',
   './img/timeline.png',
   './img/title-timeline.png',
-  './img/poster.png' // <-- BARU (Gambar untuk pop-up ad)
+  './img/poster.png'
 ];
 
 self.addEventListener('install', event => {

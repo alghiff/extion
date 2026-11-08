@@ -20,28 +20,38 @@
 <body>
 
     <!-- FLOATING AD (POP-UP) -->
-    <div id="floating-ad-overlay" class="ad-overlay">
-        <div class="ad-content">
-            <button id="close-ad-btn" class="ad-close-btn" aria-label="Tutup Iklan">&times;</button>
-            <img src="img/poster.png" alt="EXTION Poster" class="ad-image">
-            <button onclick="openSecureLink('main_reg')" class="btn btn-primary ad-btn-action">Daftar Sekarang!</button>
+    <div id="promo-popup" class="popup-overlay hidden">
+        <div class="popup-content">
+            <button id="close-popup-btn" class="popup-close-btn" aria-label="Tutup Iklan">&times;</button>
+            <img src="img/poster.png" alt="EXTION Poster" class="popup-image">
         </div>
     </div>
 
+    <!-- HEADER & NAVBAR -->
     <header class="container">
         <a href="#home" class="logo-link">
             <img src="img/logo.png" alt="EXTION Logo" class="logo-img">
         </a>
-        <nav>
+
+        <!-- Tombol Hamburger (Cuma muncul di HP) -->
+        <button class="menu-toggle" id="mobile-menu" aria-label="Buka Menu">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </button>
+
+        <!-- Menu Navigasi -->
+        <nav class="nav-menu" id="nav-menu">
             <ul>
-                <li><a href="#about">Tentang</a></li>
-                <li><a href="#lomba">Lomba</a></li>
-                <li><a href="#timeline">Timeline</a></li>
-                <li><a href="#faq">FAQ</a></li>
+                <li><a href="#about" class="nav-link">Tentang</a></li>
+                <li><a href="#lomba" class="nav-link">Lomba</a></li>
+                <li><a href="#timeline" class="nav-link">Timeline</a></li>
+                <li><a href="#faq" class="nav-link">FAQ</a></li>
             </ul>
         </nav>
     </header>
 
+    <!-- HERO SECTION -->
     <section class="hero container" id="home">
         <h1>EXTION 2026</h1>
         <p>"Veil of Perseverance: Where Every Effort Becomes a Quiet Crown of Light"</p>
@@ -120,7 +130,7 @@
                 </div>
             </div>
 
-            <!-- MHQ (Sekarang Aktif) -->
+            <!-- MHQ -->
             <div class="card">
                 <img src="img/mhq.png" alt="MHQ" class="card-img">
                 <h3 class="card-title">MHQ</h3>
@@ -203,10 +213,17 @@
     <section class="location-section container" id="location">
         <div class="location-grid">
             
+            <!-- Kolom Kiri: Maps & Alamat -->
             <div class="map-column">
                 <h2 class="title-gothic">LOCATION</h2>
                 <div class="map-container">
                     <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3965.911543385083!2d106.95133467498356!3d-6.308692493682207!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e6993005f3cb893%3A0xe5fdfaf4e0f4ec41!2sSMA%20Future%20Gate%20Putri%20Full%20Day%20School!5e0!3m2!1sen!2sid!4v1700000000000!5m2!1sen!2sid" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+                
+                <!-- TEKS ALAMAT DI BAWAH MAP -->
+                <div class="map-address">
+                    <strong>SMA FG PUTRI FDS</strong><br>
+                    Jl. Ratna - Jatibening No.117, RT.002/RW.001, Jatibening, Kec. Pd. Gede, Kota Bks, Jawa Barat 17412, Indonesia
                 </div>
             </div>
 
