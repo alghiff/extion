@@ -1,5 +1,5 @@
 // ==========================================
-// 1. SISTEM COUNTDOWN (FIX TAHUN 2027)
+// 1. SISTEM COUNTDOWN
 // ==========================================
 const targetDate = new Date("2027-04-20T08:00:00+07:00").getTime();
 let timeOffset = 0;
@@ -8,11 +8,9 @@ async function syncTimeWithServer() {
     try {
         const response = await fetch('https://worldtimeapi.org/api/timezone/Asia/Jakarta');
         if (!response.ok) throw new Error("API Error");
-        
         const data = await response.json();
         const serverTime = new Date(data.datetime).getTime();
         const clientTime = new Date().getTime();
-        
         timeOffset = serverTime - clientTime;
     } catch (error) {
         timeOffset = 0; 
@@ -67,7 +65,7 @@ function initFloatingAd() {
 }
 
 // ==========================================
-// 3. LOGIKA NAVBAR MOBILE (HAMBURGER)
+// 3. LOGIKA NAVBAR MOBILE
 // ==========================================
 function initMobileMenu() {
     const menuToggle = document.getElementById('mobile-menu');
@@ -90,7 +88,7 @@ function initMobileMenu() {
 }
 
 // ==========================================
-// 4. FAQ ACCORDION LOGIC (ULTRA SMOOTH)
+// 4. FAQ ACCORDION
 // ==========================================
 function initFaqAccordion() {
     const faqItems = document.querySelectorAll('.faq-item');
@@ -122,7 +120,7 @@ function initFaqAccordion() {
 }
 
 // ==========================================
-// 5. JALANKAN SEMUA FUNGSI SAAT WEB DIMUAT
+// 5. JALANKAN SEMUA FUNGSI
 // ==========================================
 document.addEventListener('DOMContentLoaded', () => {
     syncTimeWithServer();
@@ -134,7 +132,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // ==========================================
-// 6. SISTEM LINK RAHASIA (BASE64)
+// 6. SISTEM LINK RAHASIA
 // ==========================================
 const secureLinks = {
     'main_reg': 'aHR0cHM6Ly9kb2NzLmdvb2dsZS5jb20vZm9ybXMvZC9lLzFGQUlwUUxTY0QzdHdiM1J2MHMtcmRXRUZoM0VKX3A4YjU5T0ZScUx6MzhweWs3aXBkanlodHlRL3ZpZXdmb3Jt',

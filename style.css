@@ -14,6 +14,8 @@
 
 html {
     scroll-behavior: smooth;
+    /* Kasih jarak biar pas diklik gak ketutupan navbar sticky */
+    scroll-padding-top: 100px; 
 }
 
 * {
@@ -35,7 +37,7 @@ body {
 }
 
 /* =========================================
-   LAYOUT UTAMA & HEADER
+   LAYOUT UTAMA
    ========================================= */
 .container {
     max-width: 1200px;
@@ -45,18 +47,34 @@ body {
     z-index: 1; 
 }
 
-header.container {
+/* =========================================
+   NAVBAR (STICKY FULL WIDTH - V7 STYLE)
+   ========================================= */
+.navbar {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    
+    /* Efek Kaca (Glassmorphism) ala V7 */
+    background: rgba(253, 245, 230, 0.85); 
+    backdrop-filter: blur(15px) saturate(150%);
+    -webkit-backdrop-filter: blur(15px) saturate(150%);
+    border-bottom: 1px solid rgba(139, 90, 43, 0.2);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+    transition: all 0.3s ease;
+}
+
+.nav-container {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px 0;
-    position: relative;
-    z-index: 99999; 
+    padding: 10px 20px;
 }
 
 .logo-link { display: inline-block; text-decoration: none; }
 .logo-img { 
-    height: 75px; 
+    height: 60px; 
     width: auto; 
     object-fit: contain; 
     filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.2)); 
@@ -64,7 +82,7 @@ header.container {
 }
 .logo-img:hover { transform: scale(1.05); }
 
-/* --- STYLING NAVBAR DESKTOP --- */
+/* --- STYLING MENU NAVIGASI DESKTOP --- */
 .nav-menu ul { 
     list-style: none; 
     display: flex; 
@@ -79,15 +97,14 @@ header.container {
     font-size: 14px; 
     text-transform: uppercase; 
     letter-spacing: 1px; 
-    transition: color 0.3s; 
-    background: rgba(255,255,255,0.6); 
-    padding: 8px 15px; 
-    border-radius: 10px; 
+    transition: all 0.3s ease; 
+    padding: 8px 12px;
+    border-radius: 8px;
 }
 
 .nav-menu a:hover { 
     color: var(--red-accent); 
-    background: rgba(255,255,255,0.9); 
+    background: rgba(192, 57, 43, 0.1);
 }
 
 /* Tombol Hamburger */
@@ -99,7 +116,7 @@ header.container {
     border: none;
     cursor: pointer;
     padding: 5px;
-    z-index: 101;
+    z-index: 1001;
 }
 
 .menu-toggle .bar {
@@ -114,6 +131,7 @@ header.container {
 .menu-toggle.active .bar:nth-child(2) { opacity: 0; }
 .menu-toggle.active .bar:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
 
+
 /* =========================================
    HERO SECTION
    ========================================= */
@@ -121,7 +139,8 @@ header.container {
     text-align: center; 
     padding: 40px 20px; 
     border-radius: 20px; 
-    margin-bottom: 40px;
+    margin-top: 20px;
+    margin-bottom: 40px; 
 }
 .hero h1 { 
     font-family: var(--font-heading); 
@@ -238,7 +257,7 @@ header.container {
 .btn-guide:hover { background: #c19b26; transform: scale(1.05); }
 
 /* =========================================
-   FAQ SECTION (SMOOTH ANIMATION)
+   FAQ SECTION
    ========================================= */
 .faq-section { margin-bottom: 60px; }
 .faq-header h2 { font-family: var(--font-heading); font-size: clamp(2rem, 6vw, 2.8rem); color: var(--red-accent); text-align: center; margin-bottom: 30px; text-shadow: 2px 2px 4px rgba(255,255,255,0.8); }
@@ -247,12 +266,10 @@ header.container {
 .faq-item summary { padding: 20px; font-weight: 600; font-size: 1rem; color: #3d2b1f; cursor: pointer; list-style: none; position: relative; display: flex; justify-content: space-between; align-items: center; outline: none; }
 .faq-item summary::-webkit-details-marker { display: none; }
 
-/* Animasi Icon Plus/Minus */
 .faq-item summary::after { content: '+'; font-size: 1.5rem; font-weight: bold; color: #3d2b1f; transition: transform 0.4s ease; }
 .faq-item.is-active summary::after { content: '−'; transform: rotate(180deg); }
 .faq-item.is-active summary { border-bottom: 1px solid #d4c5a9; }
 
-/* Smooth Grid Animation */
 .faq-answer { 
     display: grid;
     grid-template-rows: 0fr; 
@@ -275,23 +292,25 @@ header.container {
 .mt-30 { margin-top: 30px; }
 .map-container { width: 100%; height: 350px; border-radius: 10px; overflow: hidden; border: 4px solid var(--dark-brown); box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
 
-/* TEKS ALAMAT DI BAWAH MAP */
 .map-address {
     margin-top: 15px;
     padding: 12px;
+    background: rgba(255, 255, 255, 0.85); 
     border-radius: 10px;
-    text-align: left;
+    border: 1px solid rgba(139, 90, 43, 0.3);
+    text-align: center;
     font-size: 0.9rem;
     color: var(--dark-brown);
     line-height: 1.5;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
 }
 .map-address strong {
     font-size: 1rem;
+    color: var(--red-accent);
     display: inline-block;
     margin-bottom: 5px;
 }
 
-/* Social Links */
 .social-links-list { display: flex; flex-direction: column; align-items: center; gap: 15px; margin-bottom: 30px; }
 .social-links-list a { font-family: var(--font-body); font-size: 1.1rem; font-weight: 600; color: var(--dark-brown); text-decoration: none; padding: 10px 25px; background: rgba(255, 255, 255, 0.6); border-radius: 50px; border: 1px solid rgba(139, 90, 43, 0.3); transition: all 0.3s ease; width: 100%; max-width: 320px; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
 .social-links-list a:hover { background: var(--red-accent); color: #fff; border-color: var(--red-accent); transform: translateY(-3px); box-shadow: 0 5px 15px rgba(139, 0, 0, 0.3); }
@@ -312,31 +331,97 @@ footer { text-align: center; padding: 20px 0; font-size: 0.8rem; color: var(--da
 .popup-close-btn { position: absolute; top: -15px; right: -15px; background: var(--red-accent); color: #fff; border: 2px solid #fff; width: 35px; height: 35px; border-radius: 50%; font-size: 20px; font-weight: bold; cursor: pointer; display: flex; justify-content: center; align-items: center; box-shadow: 0 4px 10px rgba(0,0,0,0.4); transition: transform 0.2s; z-index: 10000; }
 .popup-close-btn:hover { transform: scale(1.1); background: #6b0000; }
 
-
 /* =========================================
    RESPONSIVE DESIGN (MOBILE & TABLET)
    ========================================= */
 @media (max-width: 768px) {
-    /* 1. FIX NAVBAR MOBILE */
-    header.container { flex-direction: row; justify-content: space-between; align-items: center; padding-bottom: 10px; }
-    .logo-img { height: 55px; margin-bottom: 0; }
-    .menu-toggle { display: flex; } 
-
-    .nav-menu {
-        position: absolute; top: 100%; left: 0; width: 100%;
-        background: #FDF5E6; box-shadow: 0 10px 15px rgba(0,0,0,0.2);
-        border-bottom: 2px solid var(--gold); padding: 20px;
-        display: none; flex-direction: column; border-radius: 0 0 20px 20px;
-        z-index: 99999; 
+    /* Sesuaikan jarak scroll biar gak ketutupan navbar */
+    html {
+        scroll-padding-top: 70px; 
     }
+
+    /* 1. NAVBAR MOBILE (DIKECILIN) */
+    .nav-container { 
+        padding: 8px 15px; 
+    }
+
+    .logo-img { 
+        height: 40px; 
+        margin-bottom: 0; 
+    }
+    
+    .menu-toggle { display: flex; } 
+    
+    .menu-toggle .bar {
+        width: 22px; 
+        height: 2.5px;
+    }
+
+    /* 2. DROPDOWN MENU FULL SCREEN (GLASSMORPHISM TEBAL) */
+    .nav-menu {
+        position: fixed; 
+        top: 60px; 
+        left: 0; 
+        width: 100%; 
+        height: calc(100vh - 60px); 
+        
+        /* KUNCI PERUBAHAN: KACA TEBAL */
+        background: rgba(253, 245, 230, 0.85); /* Warna cream lebih pekat (85%) */
+        backdrop-filter: blur(35px) saturate(180%); /* Blur dinaikin drastis */
+        -webkit-backdrop-filter: blur(35px) saturate(180%);
+        
+        border: none;
+        border-radius: 0;
+        box-shadow: none;
+        
+        padding: 20px;
+        display: none; 
+        flex-direction: column;
+        z-index: 1500; 
+        overflow-y: auto; 
+    }
+    
     .nav-menu.active { display: flex; animation: slideDown 0.3s ease forwards; }
-    .nav-menu ul { flex-direction: column; gap: 15px; align-items: center; width: 100%; }
-    .nav-menu li { width: 100%; text-align: center; }
-    .nav-menu a { display: block; width: 100%; padding: 12px; background: rgba(255,255,255,0.5); }
+    
+    .nav-menu ul { 
+        flex-direction: column; 
+        gap: 0; 
+        align-items: flex-end; 
+        width: 100%; 
+        margin-top: 20px; /* Kasih jarak dari atas */
+    }
+    
+    .nav-menu li { 
+        width: 100%; 
+        border-bottom: 1px solid rgba(139, 90, 43, 0.3); /* Garis pemisah agak tegas */
+    }
+    
+    .nav-menu a { 
+        display: block; 
+        width: 100%; 
+        padding: 22px 10px; 
+        text-align: right; 
+        background: transparent; 
+        border: none; 
+        border-radius: 0;
+        font-size: 18px; 
+        font-weight: 700; 
+        color: var(--dark-brown);
+        /* Text shadow dihapus karena background udah pekat, biar teks lebih tajam */
+    }
+    
+    .nav-menu a:hover, 
+    .nav-menu a:active { 
+        background: rgba(192, 57, 43, 0.1); /* Efek hover merah tipis */
+        color: var(--red-accent); 
+    }
 
-    @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes slideDown { 
+        from { opacity: 0; transform: translateY(-10px); } 
+        to { opacity: 1; transform: translateY(0); } 
+    }
 
-    /* 2. KATEGORI LOMBA JADI 2 KOLOM */
+    /* 3. KATEGORI LOMBA JADI 2 KOLOM */
     .grid-competitions { grid-template-columns: repeat(2, 1fr); gap: 10px; }
     .card { padding: 5px; }
     .card-img { height: auto; max-height: 160px; margin-bottom: 10px; }
@@ -345,7 +430,7 @@ footer { text-align: center; padding: 20px 0; font-size: 0.8rem; color: var(--da
     .card-actions { flex-direction: column; gap: 5px; width: 100%; padding: 0 5px; }
     .btn-sm { width: 100%; padding: 6px; font-size: 0.7rem; }
 
-    /* 3. LOCATION & CONTACT JADI 2 KOLOM */
+    /* 4. LOCATION & CONTACT JADI 2 KOLOM */
     .location-grid { grid-template-columns: 1fr 1fr; gap: 8px; padding: 10px; }
     .map-column, .contact-column { width: 100%; overflow: hidden; }
     .map-container { height: 160px; border-width: 2px; }
@@ -358,6 +443,6 @@ footer { text-align: center; padding: 20px 0; font-size: 0.8rem; color: var(--da
     .social-links-list a { font-size: 0.65rem; padding: 8px 2px; max-width: 100%; line-height: 1.2; word-break: break-word; }
     .mt-30 { margin-top: 10px; }
 
-    /* 4. SECTION LAIN */
+    /* 5. SECTION LAIN */
     .timeline-title-img { max-width: 80%; }
 }
