@@ -14,6 +14,10 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Alkalami&family=Fontdiner+Swanky&family=Poppins:wght@300;400;600;700&family=Great+Vibes&display=swap" rel="stylesheet">
 
+    <!-- Preload Aset Penting (Biar Intro & Background langsung muncul) -->
+    <link rel="preload" as="image" href="img/bg.png">
+    <link rel="preload" as="image" href="img/logo.png">
+
     <!-- GSAP, Lenis, VanillaTilt -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
@@ -102,7 +106,7 @@
 
     <!-- ABOUT SECTION -->
     <section class="about-section container" id="about">
-        <img src="img/about.png" alt="About EXTION 2026" class="section-image">
+        <img src="img/about.png" alt="About EXTION 2026" class="section-image" loading="lazy">
     </section>
 
     <!-- KATEGORI LOMBA -->
@@ -111,7 +115,7 @@
         <div class="grid-competitions">
             
             <div class="card">
-                <img src="img/storytelling.png" alt="Story Telling" class="card-img">
+                <img src="img/storytelling.png" alt="Story Telling" class="card-img" loading="lazy">
                 <h3 class="card-title">Story Telling</h3>
                 <p class="card-subtitle">Tingkat: SD</p>
                 <div class="card-actions">
@@ -121,7 +125,7 @@
             </div>
 
             <div class="card">
-                <img src="img/lcc.png" alt="LCC" class="card-img">
+                <img src="img/lcc.png" alt="LCC" class="card-img" loading="lazy">
                 <h3 class="card-title">LCC</h3>
                 <p class="card-subtitle">Tingkat: SMP</p>
                 <div class="card-actions">
@@ -131,7 +135,7 @@
             </div>
 
             <div class="card">
-                <img src="img/businessplan.png" alt="Business Plan" class="card-img">
+                <img src="img/businessplan.png" alt="Business Plan" class="card-img" loading="lazy">
                 <h3 class="card-title">Business Plan</h3>
                 <p class="card-subtitle">Tingkat: SMP</p>
                 <div class="card-actions">
@@ -141,9 +145,9 @@
             </div>
 
             <div class="card">
-                <img src="img/kaligrafi.png" alt="Kaligrafi" class="card-img">
+                <img src="img/kaligrafi.png" alt="Kaligrafi" class="card-img" loading="lazy">
                 <h3 class="card-title">Kaligrafi</h3>
-                <p class="card-subtitle">Tiungkat: SD</p>
+                <p class="card-subtitle">Tingkat: SD</p>
                 <div class="card-actions">
                     <button onclick="openSecureLink('kaligrafi_reg')" class="btn-sm btn-reg">Registration</button>
                     <button onclick="openSecureLink('kaligrafi_guide')" class="btn-sm btn-guide">Guidebook</button>
@@ -151,7 +155,7 @@
             </div>
 
             <div class="card">
-                <img src="img/mhq.png" alt="MHQ" class="card-img">
+                <img src="img/mhq.png" alt="MHQ" class="card-img" loading="lazy">
                 <h3 class="card-title">MHQ</h3>
                 <p class="card-subtitle">Tingkat: SD & SMP</p>
                 <div class="card-actions">
@@ -161,7 +165,7 @@
             </div>
 
             <div class="card">
-                <img src="img/bilingualspeech.png" alt="Bilingual Speech" class="card-img">
+                <img src="img/bilingualspeech.png" alt="Bilingual Speech" class="card-img" loading="lazy">
                 <h3 class="card-title">Bilingual Speech</h3>
                 <p class="card-subtitle">Tingkat: SMP</p>
                 <div class="card-actions">
@@ -176,9 +180,9 @@
     <!-- TIMELINE SECTION -->
     <section class="timeline-section container" id="timeline">
         <div class="timeline-title-container">
-            <img src="img/title-timeline.png" alt="Timeline Title" class="timeline-title-img">
+            <img src="img/title-timeline.png" alt="Timeline Title" class="timeline-title-img" loading="lazy">
         </div>
-        <img src="img/timeline.png" alt="Timeline EXTION 2026" class="section-image">
+        <img src="img/timeline.png" alt="Timeline EXTION 2026" class="section-image" loading="lazy">
     </section>
 
     <!-- FAQ SECTION -->

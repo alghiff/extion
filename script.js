@@ -164,7 +164,6 @@ function openSecureLink(key) {
 // 7. CINEMATIC ANIMATION (GSAP + LENIS)
 // ==========================================
 function initCinematicAnimation() {
-    // Setup Lenis
     const lenis = new Lenis({
         duration: 1.2,
         easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
@@ -181,15 +180,13 @@ function initCinematicAnimation() {
 
     gsap.registerPlugin(ScrollTrigger);
 
-    // Set state awal card secara paksa via JS (Biar gak ilang)
     gsap.set(".card", { opacity: 0, y: 50 });
 
-    // Animasi Card (Ganti gsap.from ke gsap.to)
     gsap.to(".card", {
         scrollTrigger: {
             trigger: ".competitions-section",
             start: "top 85%",
-            toggleActions: "play none none none" // Pasti main
+            toggleActions: "play none none none" 
         },
         y: 0,
         opacity: 1,
@@ -197,8 +194,8 @@ function initCinematicAnimation() {
         stagger: 0.15,
         ease: "power2.out",
         onComplete: () => {
-            // Vanilla Tilt baru dijalanin SETELAH GSAP selesai
-            if (typeof VanillaTilt !== 'undefined') {
+            // OPTIMASI: Vanilla Tilt cuma jalan di Desktop (layar > 768px)
+            if (window.innerWidth > 768 && typeof VanillaTilt !== 'undefined') {
                 VanillaTilt.init(document.querySelectorAll(".card"), {
                     max: 10,
                     speed: 400,
@@ -210,7 +207,6 @@ function initCinematicAnimation() {
         }
     });
 
-    // Animasi About & Timeline
     gsap.from(".about-section img", {
         scrollTrigger: {
             trigger: ".about-section",
@@ -233,22 +229,23 @@ function initCinematicAnimation() {
         ease: "power2.out"
     });
 
-    // Parallax Timeline
-    gsap.fromTo(".timeline-section .section-image", 
-        { y: 30 },
-        {
-            y: -30,
-            ease: "none",
-            scrollTrigger: {
-                trigger: ".timeline-section",
-                start: "top bottom",
-                end: "bottom top",
-                scrub: true
+    // OPTIMASI: Parallax cuma jalan di Desktop
+    if (window.innerWidth > 768) {
+        gsap.fromTo(".timeline-section .section-image", 
+            { y: 30 },
+            {
+                y: -30,
+                ease: "none",
+                scrollTrigger: {
+                    trigger: ".timeline-section",
+                    start: "top bottom",
+                    end: "bottom top",
+                    scrub: true
+                }
             }
-        }
-    );
+        );
+    }
 
-    // Animasi FAQ
     gsap.from(".faq-item", {
         scrollTrigger: {
             trigger: ".faq-section",
@@ -261,11 +258,11 @@ function initCinematicAnimation() {
         ease: "power2.out"
     });
 
-    // Paksa refresh setelah semuanya beres
+    // Paksa refresh setelah semuanya beres (termasuk Lazy Load Images)
     setTimeout(() => {
         ScrollTrigger.refresh();
         console.log("ScrollTrigger Refreshed!");
-    }, 500);
+    }, 800);
 }
 
 // ==========================================
@@ -280,7 +277,7 @@ function animateHero() {
 function initCinematicIntro() {
     const intro = document.getElementById('cinematic-intro');
     
-    // Logika sessionStorage lu
+    // Logika sessionStorage (Hapus komentar untuk production)
     /*
     if (sessionStorage.getItem('introPlayed')) {
         intro.style.display = 'none';
@@ -303,7 +300,6 @@ function initCinematicIntro() {
             animateHero();
             showAd(); 
             
-            // REFRESH TRIGGER setelah intro hilang
             ScrollTrigger.refresh(); 
         }
     });
