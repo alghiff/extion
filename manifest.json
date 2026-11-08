@@ -1,0 +1,22 @@
+{
+  "name": "EXTION 2026",
+  "short_name": "EXTION",
+  "description": "Veil of Perseverance: Where Every Effort Becomes a Quiet Crown of Light.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#FDF5E6",
+  "theme_color": "#8B5A2B",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "img/logo.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "img/logo.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
