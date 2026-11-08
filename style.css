@@ -24,16 +24,12 @@ html {
 }
 
 /* =========================================
-   KURSOR BUNGA MAWAR (ROSE CURSOR)
+   KURSOR BUNGA MAWAR (ROSE CURSOR) & BACKGROUND FIX
    ========================================= */
 body {
     font-family: var(--font-body);
     color: #333;
-    background-image: url('img/bg.png'); 
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
-    background-repeat: no-repeat;
+    background-color: #f4f1ea; /* Warna dasar fallback */
     min-height: 100vh;
     overflow-x: hidden;
     
@@ -41,9 +37,20 @@ body {
     cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewport='0 0 100 100' style='font-size:30px;'><text y='50%'>🌹</text></svg>") 16 16, auto;
 }
 
-/* Kursor pas di atas link/tombol jadi tangan */
-a, button, .card, .faq-item summary {
-    cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewport='0 0 100 100' style='font-size:30px;'><text y='50%'>🌹</text></svg>") 16 16, pointer !important;
+/* KUNCI UTAMA: Background ditaruh di lapisan paling belakang & di-fix */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0; 
+    left: 0; 
+    width: 100vw; 
+    height: 100vh;
+    background-image: url('img/bg.png'); 
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: -1; /* Biar ada di paling belakang */
+    pointer-events: none; /* Biar gak ngeblok klik user & kursor mawar */
 }
 
 /* CSS UNTUK LENIS SMOOTH SCROLL */
@@ -103,10 +110,6 @@ body.intro-active { overflow: hidden; }
 
 /* Container Logo EXTION */
 .intro-logo-container {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%); /* KUNCI: Center Paksa */
     opacity: 0;
     z-index: 10;
     width: 100%;
@@ -309,9 +312,79 @@ body.intro-active { overflow: hidden; }
 }
 .map-address strong { font-size: 1rem; color: var(--red-accent); display: inline-block; margin-bottom: 5px; }
 
-.social-links-list { display: flex; flex-direction: column; align-items: center; gap: 15px; margin-bottom: 30px; }
-.social-links-list a { font-family: var(--font-body); font-size: 1.1rem; font-weight: 600; color: var(--dark-brown); text-decoration: none; padding: 10px 25px; background: rgba(255, 255, 255, 0.6); border-radius: 50px; border: 1px solid rgba(139, 90, 43, 0.3); transition: all 0.3s ease; width: 100%; max-width: 320px; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-.social-links-list a:hover { background: var(--red-accent); color: #fff; border-color: var(--red-accent); transform: translateY(-3px); box-shadow: 0 5px 15px rgba(139, 0, 0, 0.3); }
+/* =========================================
+   SOCIAL MEDIA & CONTACT BUTTONS (NEW DESIGN)
+   ========================================= */
+.social-links-list { 
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    gap: 12px; 
+    margin-bottom: 30px; 
+    width: 100%;
+}
+
+/* Desain Kotak Utama */
+.btn-contact { 
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 15px;
+    font-family: var(--font-body); 
+    font-size: 1.1rem; 
+    font-weight: 600; 
+    text-decoration: none; 
+    padding: 12px 20px; 
+    border-radius: 15px; /* Ujung membulat */
+    transition: all 0.3s ease; 
+    width: 100%; 
+    max-width: 350px; 
+    background: rgba(255, 255, 255, 0.9); /* Background putih */
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    border: 2px solid transparent; /* Border transparan awalnya */
+}
+
+.btn-contact svg {
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+}
+
+/* --- STYLE KHUSUS WHATSAPP (HIJAU) --- */
+.wa-btn {
+    color: #128C7E; /* Warna teks hijau gelap */
+}
+.wa-btn svg {
+    fill: #25D366; /* Ikon hijau WA */
+}
+.wa-btn:hover {
+    background: #25D366;
+    color: #fff;
+    border-color: #25D366;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(37, 211, 102, 0.4);
+}
+.wa-btn:hover svg {
+    fill: #fff; /* Ikon jadi putih pas di-hover */
+}
+
+/* --- STYLE KHUSUS INSTAGRAM (PINK/UNGU) --- */
+.ig-btn {
+    color: #C13584; /* Warna teks pink gelap */
+}
+.ig-btn svg {
+    fill: #E1306C; /* Ikon pink IG */
+}
+.ig-btn:hover {
+    background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); /* Gradasi IG */
+    color: #fff;
+    border-color: transparent;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(225, 48, 108, 0.4);
+}
+.ig-btn:hover svg {
+    fill: #fff; /* Ikon jadi putih pas di-hover */
+}
 
 /* =========================================
    FOOTER & FLOATING AD
@@ -351,9 +424,35 @@ footer { text-align: center; padding: 20px 0; font-size: 0.8rem; color: var(--da
     .map-address { font-size: 0.65rem; padding: 8px; margin-top: 8px; }
     .map-address strong { font-size: 0.75rem; margin-bottom: 2px; }
 
-    .social-links-list { gap: 6px; margin-bottom: 10px; }
-    .social-links-list a { font-size: 0.65rem; padding: 8px 2px; max-width: 100%; line-height: 1.2; word-break: break-word; }
+    /* Contact di Mobile */
+    .social-links-list { gap: 8px; margin-bottom: 10px; }
+    
+    .btn-contact { 
+        font-size: 0.75rem; /* Font dikecilin */
+        padding: 8px 10px; 
+        gap: 8px; 
+        max-width: 100%; 
+        border-radius: 10px;
+    }
+    
+    .btn-contact svg {
+        width: 18px; /* Ikon dikecilin */
+        height: 18px;
+    }    
+    
     .mt-30 { margin-top: 10px; }
 
     .timeline-title-img { max-width: 80%; }
+
+    .intro-logo-container img {
+        width: 180px; /* Di desktop 300px, di HP jadi 180px biar pas */
+        max-width: 60%; /* Jaga-jaga kalau layar HP-nya kecil banget */
+        margin-bottom: 15px;
+    }
+
+    .intro-logo-container p {
+        font-size: 0.85rem; /* Teks tagline-nya juga dikecilin biar seimbang */
+        padding: 0 15px;
+        margin: 0 auto;
+    }
 }
