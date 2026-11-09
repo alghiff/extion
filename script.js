@@ -304,10 +304,6 @@ function initCinematicIntro() {
         }
     });
 
-    gsap.to(".cloud-1", { x: 100, y: 50, duration: 15, repeat: -1, yoyo: true, ease: "sine.inOut" });
-    gsap.to(".cloud-2", { x: -100, y: -50, duration: 20, repeat: -1, yoyo: true, ease: "sine.inOut" });
-    gsap.to(".cloud-3", { x: 50, y: -100, duration: 18, repeat: -1, yoyo: true, ease: "sine.inOut" });
-
     tl.to("#intro-welcome", { opacity: 1, duration: 1.5, ease: "power2.inOut" })
       .to("#intro-welcome", { opacity: 0, duration: 1, delay: 1 })
       .to("#intro-to", { opacity: 1, duration: 1, ease: "power2.inOut" })

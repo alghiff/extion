@@ -143,15 +143,67 @@ body.intro-active { overflow: hidden; }
     max-width: 600px; 
 }
 
-.clouds-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; }
+/* =========================================
+   THICK MAGICAL SMOKE (GERAK & LAPISAN)
+   ========================================= */
+.clouds-container { 
+    position: absolute; 
+    top: 0; left: 0; 
+    width: 100%; height: 100%; 
+    pointer-events: none; 
+    overflow: hidden;
+}
+
+/* Z-INDEX: Ngatur siapa di depan, siapa di belakang */
+.bg-clouds { z-index: 1; }   /* Di belakang teks */
+.fg-clouds { z-index: 20; }  /* Di depan teks */
+
+/* Base Asap */
 .cloud {
     position: absolute;
-    background: radial-gradient(circle, rgba(212,175,55,0.15) 0%, rgba(10,10,10,0) 70%);
-    border-radius: 50%; filter: blur(40px);
+    background: radial-gradient(circle, rgba(255, 215, 0, 0.4) 0%, rgba(139, 90, 43, 0.1) 50%, transparent 80%);
+    filter: blur(50px); 
+    mix-blend-mode: screen; /* Bikin asapnya nyala/glowing */
 }
-.cloud-1 { width: 600px; height: 600px; top: -10%; left: -10%; }
-.cloud-2 { width: 800px; height: 800px; bottom: -20%; right: -20%; }
-.cloud-3 { width: 500px; height: 500px; top: 30%; left: 40%; }
+
+/* --- ASAP BELAKANG (BG) --- */
+.cloud-bg-1 {
+    width: 800px; height: 600px; top: 0%; left: -20%;
+    animation: driftRight 35s linear infinite;
+}
+.cloud-bg-2 {
+    width: 700px; height: 700px; bottom: 0%; right: -20%;
+    animation: driftLeft 40s linear infinite;
+}
+
+/* --- ASAP DEPAN (FG) - Nutupin Teks Tapi Transparan --- */
+.cloud-fg-1 {
+    width: 600px; height: 500px; top: 30%; left: -30%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.15) 0%, rgba(212, 175, 55, 0.2) 40%, transparent 70%);
+    filter: blur(30px);
+    opacity: 0.6; /* Gak terlalu tebal, biar teks tetep kebaca */
+    animation: driftRight 25s linear infinite;
+}
+.cloud-fg-2 {
+    width: 500px; height: 400px; bottom: 20%; right: -30%;
+    background: radial-gradient(circle, rgba(212, 175, 55, 0.3) 0%, transparent 60%);
+    filter: blur(40px);
+    opacity: 0.5;
+    animation: driftLeft 30s linear infinite;
+}
+
+/* --- ANIMASI GERAK HORIZONTAL (DITIUP ANGIN) --- */
+@keyframes driftRight {
+    0% { transform: translateX(-50vw) translateY(0) scale(1); }
+    50% { transform: translateX(50vw) translateY(-50px) scale(1.2); }
+    100% { transform: translateX(150vw) translateY(50px) scale(1); }
+}
+
+@keyframes driftLeft {
+    0% { transform: translateX(150vw) translateY(0) scale(1); }
+    50% { transform: translateX(50vw) translateY(50px) scale(1.1); }
+    100% { transform: translateX(-50vw) translateY(-50px) scale(1); }
+}
 
 .skip-btn {
     position: absolute; bottom: 40px; right: 40px;
@@ -224,15 +276,75 @@ body.intro-active { overflow: hidden; }
     font-size: clamp(1rem, 3vw, 1.2rem); color: var(--dark-brown); margin-bottom: 20px; font-style: italic; font-weight: 600; 
 }
 
+/* =========================================
+   BEAUTY AND THE BEAST COUNTDOWN (VINTAGE GLASS)
+   ========================================= */
 .countdown-container { 
-    display: inline-flex; gap: 10px; background: rgba(255, 255, 255, 0.9); padding: 15px 20px; border-radius: 50px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); margin-top: 10px; flex-wrap: wrap; justify-content: center; 
+    display: flex; 
+    gap: 15px; /* Jarak antar kotak */
+    justify-content: center; 
+    flex-wrap: wrap; 
+    margin-top: 20px;
+    background: transparent; /* Hapus background putih panjang */
+    box-shadow: none; 
+    padding: 0;
 }
-.countdown-item { text-align: center; min-width: 60px; }
-.countdown-number { 
-    display: block; font-size: clamp(1.5rem, 4vw, 2rem); font-weight: 700; color: var(--red-accent); font-family: var(--font-heading); 
-}
-.countdown-label { font-size: 0.7rem; text-transform: uppercase; color: #666; letter-spacing: 1px; }
 
+/* Kotak Masing-masing Angka */
+.countdown-item { 
+    background: rgba(253, 245, 230, 0.85); /* Warna krem transparan ala kaca */
+    backdrop-filter: blur(10px); 
+    border: 2px solid var(--gold); /* Border emas */
+    border-radius: 15px; /* Ujung membulat */
+    padding: 15px 20px; 
+    min-width: 85px;
+    text-align: center; 
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15), inset 0 0 15px rgba(212, 175, 55, 0.4); /* Efek menyala dari dalam */
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease;
+}
+
+/* Efek garis vintage di dalam kotak */
+.countdown-item::before {
+    content: '';
+    position: absolute;
+    top: 5px; left: 5px; right: 5px; bottom: 5px;
+    border: 1px dashed rgba(139, 90, 43, 0.4); /* Garis putus-putus cokelat */
+    border-radius: 10px;
+    pointer-events: none;
+}
+
+.countdown-item:hover {
+    transform: translateY(-5px); /* Efek naik pas di-hover */
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.2), inset 0 0 20px rgba(212, 175, 55, 0.6);
+}
+
+/* Angka */
+.countdown-number { 
+    display: block; 
+    font-size: clamp(1.8rem, 4vw, 2.5rem); 
+    font-weight: 700; 
+    color: var(--red-accent); /* Tetap merah gelap biar kontras */
+    font-family: var(--font-heading); 
+    line-height: 1;
+    margin-bottom: 5px;
+    text-shadow: 1px 1px 3px rgba(255, 255, 255, 0.8); /* Shadow putih biar timbul */
+}
+
+/* Tulisan HARI/JAM/MENIT/DETIK */
+.countdown-label { 
+    font-size: 0.75rem; 
+    text-transform: uppercase; 
+    color: var(--dark-brown); 
+    font-weight: 700;
+    letter-spacing: 2px; 
+    position: relative;
+    z-index: 2;
+}
 /* =========================================
    SECTION IMAGE & TIMELINE
    ========================================= */
@@ -441,5 +553,21 @@ footer { text-align: center; padding: 20px 0; font-size: 0.8rem; color: var(--da
         font-size: 0.85rem; 
         padding: 0 15px;
         margin: 0 auto;
+    }
+
+        /* Countdown di Mobile */
+    .countdown-container { 
+        gap: 8px; /* Jarak antar kotak dirapetin */
+    }
+    .countdown-item { 
+        padding: 10px 5px; 
+        min-width: 65px; /* Kotak dikecilin */
+        border-radius: 10px;
+    }
+    .countdown-number { 
+        font-size: 1.5rem; /* Angka dikecilin */
+    }
+    .countdown-label { 
+        font-size: 0.6rem; /* Huruf dikecilin */
     }
 }
