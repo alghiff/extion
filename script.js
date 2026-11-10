@@ -1,4 +1,65 @@
 // ==========================================
+// 0. LOGIKA AUDIO (SMART AUTOPLAY)
+// ==========================================
+const bgMusic = document.getElementById('bg-music');
+const musicToggle = document.getElementById('music-toggle');
+const iconOn = document.getElementById('icon-on');
+const iconOff = document.getElementById('icon-off');
+let isMusicPlaying = false;
+
+// Fungsi Update Ikon
+function updateMusicIcon(isPlaying) {
+    isMusicPlaying = isPlaying;
+    if (isPlaying) {
+        iconOn.style.display = 'block';
+        iconOff.style.display = 'none';
+    } else {
+        iconOn.style.display = 'none';
+        iconOff.style.display = 'block';
+    }
+}
+
+// Fungsi Toggle Manual
+function toggleMusic() {
+    if (isMusicPlaying) {
+        bgMusic.pause();
+        updateMusicIcon(false);
+    } else {
+        bgMusic.play().then(() => updateMusicIcon(true)).catch(e => console.log(e));
+    }
+}
+
+if (musicToggle) {
+    musicToggle.addEventListener('click', toggleMusic);
+}
+
+// Fungsi Autoplay Pinter
+function tryAutoplayMusic() {
+    bgMusic.volume = 0.5; // Set volume 50%
+    
+    // Coba play otomatis
+    bgMusic.play().then(() => {
+        updateMusicIcon(true);
+    }).catch((error) => {
+        // Kalau diblokir browser, tunggu user nge-klik/nyentuh apa aja di layar
+        console.log("Autoplay diblokir, nunggu interaksi user...");
+        const playOnFirstClick = () => {
+            bgMusic.play().then(() => {
+                updateMusicIcon(true);
+                // Hapus event listener setelah musik sukses jalan
+                document.removeEventListener('click', playOnFirstClick);
+                document.removeEventListener('touchstart', playOnFirstClick);
+            }).catch(e => console.log(e));
+        };
+        
+        // Dengerin klik atau sentuhan pertama
+        document.addEventListener('click', playOnFirstClick);
+        document.addEventListener('touchstart', playOnFirstClick);
+    });
+}
+
+
+// ==========================================
 // 1. SISTEM COUNTDOWN
 // ==========================================
 const targetDate = new Date("2027-04-20T08:00:00+07:00").getTime();
@@ -117,6 +178,101 @@ function initFloatingMenu() {
 }
 
 // ==========================================
+// 4.5. EFEK MAWAR JATUH & TUMPUKAN MAWAR (MESSY AUTUMN STYLE)
+// ==========================================
+function initRoseEffect() {
+    const fallingContainer = document.getElementById('falling-roses-container');
+    const roseBed = document.getElementById('rose-bed');
+
+    if (!fallingContainer || !roseBed) return;
+
+    // --- 1. BIKIN TUMPUKAN MAWAR BERANTAKAN DI BAWAH ---
+    function generateRoseBed() {
+        roseBed.innerHTML = ''; 
+        
+        const screenWidth = window.innerWidth;
+        // Tentukan jumlah mawar dasar berdasarkan lebar layar
+        const baseCount = Math.ceil(screenWidth / 15); 
+
+        // Bikin 3 Lapisan (Layer) yang berbeda biar kayak tumpukan daun
+        // Lapisan 1: Belakang (Kecil, Tinggi)
+        // Lapisan 2: Tengah (Sedang, Agak Turun)
+        // Lapisan 3: Depan (Besar, Nempel Bawah)
+
+        const layers = [
+            { count: baseCount, sizeMin: 20, sizeMax: 30, bottomMin: 10, bottomMax: 50, z: 1, opacity: 0.7 },
+            { count: baseCount, sizeMin: 30, sizeMax: 45, bottomMin: 0, bottomMax: 30, z: 2, opacity: 0.85 },
+            { count: baseCount, sizeMin: 40, sizeMax: 60, bottomMin: -25, bottomMax: 10, z: 3, opacity: 1 }
+        ];
+
+        layers.forEach(layer => {
+            for (let i = 0; i < layer.count; i++) {
+                const rose = document.createElement('div');
+                rose.classList.add('bed-rose');
+                rose.innerText = '🌹';
+                
+                // KUNCI KEACAKAN: Posisi X & Y bener-bener random
+                // X: antara -5vw sampai 105vw biar ujungnya penuh
+                const randomX = (Math.random() * 110) - 5; 
+                const randomY = Math.random() * (layer.bottomMax - layer.bottomMin) + layer.bottomMin;
+                const randomSize = Math.random() * (layer.sizeMax - layer.sizeMin) + layer.sizeMin;
+                const randomRotate = Math.random() * 360;
+                
+                rose.style.left = `${randomX}vw`;
+                rose.style.bottom = `${randomY}px`;
+                rose.style.fontSize = `${randomSize}px`;
+                rose.style.transform = `rotate(${randomRotate}deg)`;
+                rose.style.zIndex = layer.z;
+                rose.style.opacity = layer.opacity;
+                
+                // Efek shadow biar tumpukannya berasa 3D
+                rose.style.filter = `drop-shadow(0 ${layer.z}px ${layer.z * 2}px rgba(0,0,0,0.3))`;
+                
+                roseBed.appendChild(rose);
+            }
+        });
+    }
+
+    generateRoseBed();
+
+    // Recalculate kalau layar berubah ukuran
+    window.addEventListener('resize', generateRoseBed);
+
+
+    // --- 2. BIKIN MAWAR JATUH (FALLING ROSES) ---
+    function spawnFallingRose() {
+        const rose = document.createElement('div');
+        rose.classList.add('falling-rose');
+        rose.innerText = '🌹';
+
+        // Variasi biar jatuhnya berantakan
+        const size = Math.random() * 20 + 15; 
+        const left = Math.random() * 100; 
+        const duration = Math.random() * 4 + 4; // 4s - 8s
+        const delay = Math.random() * 1; 
+        const rotateSpeed = Math.random() * 720 - 360; // Bisa muter kiri atau kanan
+
+        rose.style.fontSize = `${size}px`;
+        rose.style.left = `${left}vw`;
+        rose.style.animationDuration = `${duration}s`;
+        rose.style.animationDelay = `${delay}s`;
+        rose.style.opacity = Math.random() * 0.4 + 0.4; 
+        
+        // Bikin animasi custom per mawar (biar muternya beda-beda)
+        rose.style.setProperty('--rotate-end', `${rotateSpeed}deg`);
+
+        fallingContainer.appendChild(rose);
+
+        setTimeout(() => {
+            rose.remove();
+        }, (duration + delay) * 1000);
+    }
+
+    // Interval dipercepat biar lebih rame
+    setInterval(spawnFallingRose, 250);
+}
+
+// ==========================================
 // 5. JALANKAN FUNGSI DASAR
 // ==========================================
 function initBaseFeatures() {
@@ -194,7 +350,6 @@ function initCinematicAnimation() {
         stagger: 0.15,
         ease: "power2.out",
         onComplete: () => {
-            // OPTIMASI: Vanilla Tilt cuma jalan di Desktop (layar > 768px)
             if (window.innerWidth > 768 && typeof VanillaTilt !== 'undefined') {
                 VanillaTilt.init(document.querySelectorAll(".card"), {
                     max: 10,
@@ -229,7 +384,6 @@ function initCinematicAnimation() {
         ease: "power2.out"
     });
 
-    // OPTIMASI: Parallax cuma jalan di Desktop
     if (window.innerWidth > 768) {
         gsap.fromTo(".timeline-section .section-image", 
             { y: 30 },
@@ -258,15 +412,13 @@ function initCinematicAnimation() {
         ease: "power2.out"
     });
 
-    // Paksa refresh setelah semuanya beres (termasuk Lazy Load Images)
     setTimeout(() => {
         ScrollTrigger.refresh();
-        console.log("ScrollTrigger Refreshed!");
     }, 800);
 }
 
 // ==========================================
-// 8. CINEMATIC INTRO LOGIC
+// 8. CINEMATIC INTRO LOGIC (DIPERCEPAT & REFRESH TIAP KALI)
 // ==========================================
 function animateHero() {
     gsap.from(".hero h1", { y: 50, opacity: 0, duration: 1, delay: 0.2, ease: "power3.out" });
@@ -277,25 +429,13 @@ function animateHero() {
 function initCinematicIntro() {
     const intro = document.getElementById('cinematic-intro');
     
-    // Logika sessionStorage (Hapus komentar untuk production)
-    /*
-    if (sessionStorage.getItem('introPlayed')) {
-        intro.style.display = 'none';
-        document.body.classList.remove('intro-active');
-        animateHero(); 
-        showAd(); 
-        return;
-    }
-    */
-
+    // Session storage DIHAPUS biar intro selalu muncul tiap refresh
     document.body.classList.add('intro-active');
 
     const tl = gsap.timeline({
         onComplete: () => {
             intro.style.display = 'none';
             document.body.classList.remove('intro-active');
-            
-            // sessionStorage.setItem('introPlayed', 'true');
             
             animateHero();
             showAd(); 
@@ -304,15 +444,17 @@ function initCinematicIntro() {
         }
     });
 
-    tl.to("#intro-welcome", { opacity: 1, duration: 1.5, ease: "power2.inOut" })
-      .to("#intro-welcome", { opacity: 0, duration: 1, delay: 1 })
-      .to("#intro-to", { opacity: 1, duration: 1, ease: "power2.inOut" })
-      .to("#intro-to", { opacity: 0, duration: 1, delay: 1 })
+    // TIMELINE DIPERCEPAT (Durasi & Delay dipangkas)
+    tl.to("#intro-welcome", { opacity: 1, duration: 0.8, ease: "power2.inOut" })
+      .to("#intro-welcome", { opacity: 0, duration: 0.5, delay: 0.3 })
+      .to("#intro-to", { opacity: 1, duration: 0.8, ease: "power2.inOut" })
+      .to("#intro-to", { opacity: 0, duration: 0.5, delay: 0.3 })
       .fromTo("#intro-logo", 
           { opacity: 0, y: 30 },
-          { opacity: 1, y: 0, duration: 2, ease: "power3.out" }
+          { opacity: 1, y: 0, duration: 1, ease: "power3.out" }
       )
-      .to("#cinematic-intro", { opacity: 0, duration: 1.5, delay: 2, ease: "power2.inOut" });
+      // Jeda pas logo muncul dipersingkat
+      .to("#cinematic-intro", { opacity: 0, duration: 1, delay: 0.8, ease: "power2.inOut" });
 
     document.getElementById('skip-intro').addEventListener('click', () => {
         tl.progress(1); 
@@ -326,4 +468,10 @@ window.addEventListener('load', () => {
     initBaseFeatures();
     initCinematicAnimation();
     initCinematicIntro();
+    
+    // TAMBAHKAN INI BRAY
+    initRoseEffect();
+    
+    // Panggil Autoplay Musik
+    tryAutoplayMusic();
 });
